@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies (Frontend)
+        run: |
+          cd finance-dashboard-frontend
+          npm install
+
+      - name: Install Dependencies (Backend)
+        run: |
+          cd finance-dashboard-backend
+          npm install
+
+      - name: Run Tests (Frontend)
+        run: |
+          cd finance-dashboard-frontend
+          npm run test
+
+      - name: Run Tests (Backend)
+        run: |
+          cd finance-dashboard-backend
+          npm run test
+
+      - name: Build & Deploy (Docker)
+        run: |
+          docker-compose up -d --build

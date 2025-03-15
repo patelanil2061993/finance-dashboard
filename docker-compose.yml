@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./finance-dashboard-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./finance-dashboard-backend/.env
+    depends_on:
+      - postgres
+
+  frontend:
+    build: ./finance-dashboard-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  postgres:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: finance_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
