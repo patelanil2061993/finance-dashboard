@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+
 const reportRoutes = require('./routes/reportRoutes');
+const fileUploadRoutes = require('./routes/fileUploadRoutes');
 
 const financeRoutes = require("./routes/financeRoutes");
 const authRoutes = require("./routes/authRoutes"); // Example additional route
@@ -22,6 +24,7 @@ app.use("/api/finance", financeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/files', fileUploadRoutes);
 
 // Default Route
 app.get("/", (req, res) => {
